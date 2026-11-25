@@ -1,7 +1,7 @@
 {
   "name": "@yangyangxresearch/open-guardrails",
   "version": "0.1.0",
-  "description": "Check prompts and model replies against Yang Open Guardrails safety profiles",
+  "description": "Official YangYang TypeScript/JavaScript SDK",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,9 +33,9 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YangYang-Research/yang-open-guardrails-ts-sdk.git"
+    "url": "git+https://github.com/YangYang-Research/yang-ts-sdk.git"
   },
-  "homepage": "https://github.com/YangYang-Research/yang-open-guardrails-ts-sdk",
+  "homepage": "https://github.com/YangYang-Research/yang-ts-sdk",
   "dependencies": {
     "dotenv": "^16.4.0"
   },
