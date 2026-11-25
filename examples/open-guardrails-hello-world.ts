@@ -1,8 +1,12 @@
 /**
  * Agent-app hook: apply INPUT before agent, OUTPUT before showing reply.
- * Run: YANG_API_KEY=… YOG_PROFILE_ID=… YOG_VERSION_ID=… npx tsx examples/hello_world.ts "Hello"
+ * Run: YANG_API_KEY=… YOG_PROFILE_ID=… YOG_VERSION_ID=… npx tsx examples/open-guardrails-hello-world.ts "Hello"
  */
-import { YogApiError, YogClient, YogTripwireTriggered } from "../src/index.js";
+import {
+  YogApiError,
+  YogClient,
+  YogTripwireTriggered,
+} from "../src/open-guardrails/index.js";
 
 async function main(): Promise<number> {
   const profileId = (process.env.YOG_PROFILE_ID || "").trim();

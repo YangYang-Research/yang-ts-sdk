@@ -5,14 +5,16 @@ Official TypeScript/JavaScript SDK for YangYang products. Use it from your apps 
 ## Install
 
 ```bash
-npm install @yangyangxresearch/open-guardrails
+npm install @yangyangxresearch/yang-ts-sdk
 ```
 
 ## Tools
 
-| Tool | What it does | Docs |
-|------|----------------|------|
-| **Open Guardrails** | Check prompts and model replies against a safety profile | [docs/open-guardrails.md](docs/open-guardrails.md) |
+| Tool | Import | Docs |
+|------|--------|------|
+| **Open Guardrails** | `@yangyangxresearch/yang-ts-sdk/open-guardrails` | [docs/open-guardrails.md](docs/open-guardrails.md) |
+
+New tools land as sibling folders under `src/<tool>/` with a matching `exports` entry — shared key/base URL stay in `config`.
 
 ## Setup
 

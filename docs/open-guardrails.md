@@ -5,7 +5,7 @@ Check prompts and model replies against a safety profile (content, privacy, bran
 ## Install
 
 ```bash
-npm install @yangyangxresearch/open-guardrails
+npm install @yangyangxresearch/yang-ts-sdk
 ```
 
 ## Setup
@@ -30,7 +30,7 @@ If `action` is `NONE`, continue.
 If `action` is `GUARDRAIL_INTERVENED`, use `outputs[0].text` from the response.
 
 ```ts
-import { YogClient } from "@yangyangxresearch/open-guardrails";
+import { YogClient } from "@yangyangxresearch/yang-ts-sdk/open-guardrails";
 
 const client = new YogClient();
 const profileId = "YOG-AbCdEfGhIjKl";
@@ -94,5 +94,5 @@ show(reply);
 export YANG_API_KEY=sk-yyng…
 export YOG_PROFILE_ID=YOG-…
 export YOG_VERSION_ID=a1B2c3D4
-npx tsx examples/hello_world.ts "Hello"
+npx tsx examples/open-guardrails-hello-world.ts "Hello"
 ```

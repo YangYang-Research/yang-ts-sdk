@@ -1,5 +1,5 @@
 {
-  "name": "@yangyangxresearch/open-guardrails",
+  "name": "@yangyangxresearch/yang-ts-sdk",
   "version": "0.1.0",
   "description": "Official YangYang TypeScript/JavaScript SDK",
   "type": "module",
@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./open-guardrails": {
+      "types": "./dist/open-guardrails/index.d.ts",
+      "import": "./dist/open-guardrails/index.js"
     }
   },
   "files": [
