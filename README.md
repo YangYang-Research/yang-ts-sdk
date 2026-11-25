@@ -79,7 +79,7 @@ npm run build
 
 Auto-publish via GitHub Actions (`.github/workflows/publish.yml`) when a **GitHub Release** is published, or via **Actions → Publish npm → Run workflow**.
 
-Secret: `NPM_UPLOAD_PACKAGE` (npm access token). Package: `@yangyang/open-guardrails`.
+Secret (org): `NPM_UPLOAD_PACKAGE` (npm access token) — grant this repo access under Org → Settings → Secrets. Package: `@yangyang/open-guardrails`.
 
 1. Bump `version` in `package.json`
 2. Commit + push `main`
