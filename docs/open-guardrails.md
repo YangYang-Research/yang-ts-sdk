@@ -1,6 +1,6 @@
 # Open Guardrails
 
-Check prompts and model replies against a safety profile (content, privacy, brand rules) so your agent or app can allow, block, or redact text before users see it.
+Run your published safety profile on prompts and model replies — content, privacy, and brand checks — so the app can allow, block, or redact before anyone sees the text.
 
 ## Install
 
