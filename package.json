@@ -1,7 +1,7 @@
 {
   "name": "@yangyangxresearch/open-guardrails",
   "version": "0.1.0",
-  "description": "Yang Open Guardrails TypeScript SDK — apply INPUT/OUTPUT checks via YAIG",
+  "description": "Check prompts and model replies against Yang Open Guardrails safety profiles",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,12 +30,15 @@
     "yog",
     "llm-safety"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YangYang-Research/yang-open-guardrails-ts-sdk.git"
   },
   "homepage": "https://github.com/YangYang-Research/yang-open-guardrails-ts-sdk",
+  "dependencies": {
+    "dotenv": "^16.4.0"
+  },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "typescript": "^5.7.0",

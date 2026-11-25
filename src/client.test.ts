@@ -131,7 +131,7 @@ describe("YogClient.apply", () => {
   });
 
   it("rejects bad versionId", async () => {
-    const client = new YogClient({ apiKey: "sk-yyng-test" });
+    const client = new YogClient({ apiKey: "sk-yyng-test", envFile: false });
     await expect(
       client.apply({
         profileId: PROFILE,
@@ -140,5 +140,15 @@ describe("YogClient.apply", () => {
         content: [{ text: { text: "x" } }],
       }),
     ).rejects.toThrow(/versionId/);
+  });
+
+  it("requires YANG_API_KEY from env when apiKey omitted", () => {
+    const prev = process.env.YANG_API_KEY;
+    delete process.env.YANG_API_KEY;
+    try {
+      expect(() => new YogClient({ envFile: false })).toThrow(/YANG_API_KEY/);
+    } finally {
+      if (prev !== undefined) process.env.YANG_API_KEY = prev;
+    }
   });
 });

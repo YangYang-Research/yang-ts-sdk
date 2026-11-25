@@ -1,6 +1,6 @@
 # Yang Open Guardrails — TypeScript SDK
 
-Thin client for Yang Open Guardrails on `https://ai.yyng.icu`. Use it from an **existing agent app** to check text before the agent runs (`source: "INPUT"`) and before you show a reply (`source: "OUTPUT"`).
+SDK for **Yang Open Guardrails**: check prompts and model replies against a safety profile (content, privacy, brand rules) so your agent or app can allow, block, or redact text before users see it.
 
 ## Install
 
@@ -8,55 +8,87 @@ Thin client for Yang Open Guardrails on `https://ai.yyng.icu`. Use it from an **
 npm install @yangyangxresearch/open-guardrails
 ```
 
-## Auth
+## Setup
 
-- API key: `YANG_API_KEY` or `new YogClient({ apiKey: "sk-yyng…" })`
-- Entitlement: `yang_open_guardrails`
-- Profile: Studio-published `profileId` + `versionId` (8-char)
+1. Create an API key in Yang Studio (`sk-yyng…`)
+2. Create an Open Guardrails profile and copy its profile id and version id
+3. Put the API key in a `.env` file in your project:
 
-## Quickstart
+```bash
+YANG_API_KEY=sk-yyng…
+```
+
+## How to use
+
+Call `apply` twice around your agent:
+
+1. **`source: "INPUT"`** — check the user message **before** you call the agent  
+2. Run your agent / LLM as usual  
+3. **`source: "OUTPUT"`** — check the agent reply **before** you show it  
+
+If `action` is `NONE`, continue.  
+If `action` is `GUARDRAIL_INTERVENED`, use `outputs[0].text` from the response.
 
 ```ts
-import { YogClient, YogTripwireTriggered } from "@yangyangxresearch/open-guardrails";
+import { YogClient } from "@yangyangxresearch/open-guardrails";
 
-const client = new YogClient({ apiKey: "sk-yyng…" });
+const client = new YogClient();
+const profileId = "YOG-AbCdEfGhIjKl";
+const versionId = "a1B2c3D4";
 
-try {
-  // Before your agent / LLM
-  await client.apply({
-    profileId: "YOG-AbCdEfGhIjKl",
-    versionId: "a1B2c3D4",
-    source: "INPUT",
-    content: [{ text: { text: userMessage } }],
-    raiseOnTripwire: true,
-  });
-} catch (e) {
-  if (e instanceof YogTripwireTriggered) {
-    show(e.result.outputs[0]?.text);
-    return;
-  }
-  throw e;
+// --- Before agent ---
+const inbound = await client.apply({
+  profileId,
+  versionId,
+  source: "INPUT",
+  content: [{ text: { text: userMessage } }],
+});
+
+if (inbound.action === "GUARDRAIL_INTERVENED") {
+  // Do not call the agent. Show this text to the user instead.
+  show(inbound.outputs[0]?.text);
+  return;
 }
 
-let reply = await runYourAgent(userMessage); // your code
+// --- Your agent ---
+let reply = await runYourAgent(userMessage);
 
-const out = await client.apply({
-  profileId: "YOG-AbCdEfGhIjKl",
-  versionId: "a1B2c3D4",
+// --- Before show reply ---
+const outbound = await client.apply({
+  profileId,
+  versionId,
   source: "OUTPUT",
   content: [{ text: { text: reply } }],
 });
-if (out.action === "GUARDRAIL_INTERVENED") {
-  reply = out.outputs[0]?.text ?? reply;
+
+if (outbound.action === "GUARDRAIL_INTERVENED") {
+  // Agent already ran. Replace the reply with the safe text, then show it.
+  reply = outbound.outputs[0]?.text ?? reply;
 }
+
 show(reply);
 ```
 
-Optional: `outputScope`, `groundingSource`, `query`.
+### SDK parameters
 
-`raiseOnTripwire: true` throws only on hard blocks (`actionReason` starts with `Guardrail blocked`). Anonymize returns `ApplyResult` so you can use `outputs`.
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `profileId` | yes | Open Guardrails profile id from Studio |
+| `versionId` | yes | Profile version id from Studio |
+| `source` | yes | `INPUT` = check before agent. `OUTPUT` = check before show reply |
+| `content` | yes | Text to check: `[{ text: { text: "..." } }]` |
+| `outputScope` | no | `INTERVENTIONS` (default) or `FULL` — how much detail in `assessments` |
 
-## Example
+### What you get back
+
+| Field | Description |
+|-------|-------------|
+| `action` | `NONE` = OK, continue. `GUARDRAIL_INTERVENED` = use `outputs[0].text` |
+| `outputs` | Text to use when the profile intervened |
+| `actionReason` | Short reason when intervened |
+| `assessments` | Extra detail (`outputScope` controls how much) |
+
+## Quickcheck
 
 ```bash
 export YANG_API_KEY=sk-yyng…
@@ -65,29 +97,6 @@ export YOG_VERSION_ID=a1B2c3D4
 npx tsx examples/hello_world.ts "Hello"
 ```
 
-## Develop
-
-```bash
-npm ci
-npm test
-npm run build
-```
-
-## Branching
-
-- `develop` — day-to-day work / PRs
-- `main` — release line (merge from `develop` when shipping)
-
-## Publish (maintainers)
-
-Auto-publish via GitHub Actions when a **`v*` tag** is pushed or a **GitHub Release** is published — and only if that commit is already on `main`.
-
-Secret (org): `NPM_UPLOAD_PACKAGE` — grant this repo access under Org → Settings → Secrets. Package: `@yangyangxresearch/open-guardrails` (npm org `yangyangxresearch`).
-
-1. Bump `version` on `develop` (`package.json`)
-2. Merge `develop` → `main`
-3. On `main`: tag `v0.1.0` and/or create GitHub Release → workflow publishes to npm
-
 ## License
 
-MIT
+Apache License 2.0

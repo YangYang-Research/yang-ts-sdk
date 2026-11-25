@@ -5,16 +5,15 @@
 import { YogApiError, YogClient, YogTripwireTriggered } from "../src/index.js";
 
 async function main(): Promise<number> {
-  const apiKey = (process.env.YANG_API_KEY || "").trim();
   const profileId = (process.env.YOG_PROFILE_ID || "").trim();
   const versionId = (process.env.YOG_VERSION_ID || "").trim();
-  if (!apiKey || !profileId || !versionId) {
-    console.error("Set YANG_API_KEY, YOG_PROFILE_ID, YOG_VERSION_ID");
+  if (!profileId || !versionId) {
+    console.error("Set YOG_PROFILE_ID and YOG_VERSION_ID (YANG_API_KEY in .env)");
     return 1;
   }
 
   const userMessage = process.argv.slice(2).join(" ") || "Hello";
-  const client = new YogClient({ apiKey });
+  const client = new YogClient();
 
   try {
     const inbound = await client.apply({

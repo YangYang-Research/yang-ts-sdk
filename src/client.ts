@@ -1,3 +1,4 @@
+import { config as loadEnv } from "dotenv";
 import { YogApiError, YogTripwireTriggered } from "./errors.js";
 import type { ApplyParams, ApplyResult } from "./types.js";
 
@@ -5,10 +6,13 @@ export const DEFAULT_BASE_URL = "https://ai.yyng.icu";
 const VERSION_ID_RE = /^[A-Za-z0-9]{8}$/;
 
 export type YogClientOptions = {
+  /** Overrides `YANG_API_KEY` from `.env` / environment. */
   apiKey?: string;
   baseUrl?: string;
   timeoutMs?: number;
   fetch?: typeof fetch;
+  /** Path to `.env` (default: load from cwd). Set `false` to skip. */
+  envFile?: string | false;
 };
 
 function isBlocked(result: ApplyResult): boolean {
@@ -23,10 +27,18 @@ export class YogClient {
   private readonly fetchImpl: typeof fetch;
 
   constructor(opts: YogClientOptions = {}) {
+    if (opts.envFile !== false) {
+      loadEnv(opts.envFile ? { path: opts.envFile } : undefined);
+    }
     const key = (opts.apiKey || process.env.YANG_API_KEY || "").trim();
-    if (!key) throw new Error("apiKey or YANG_API_KEY is required");
+    if (!key) {
+      throw new Error("YANG_API_KEY is required (set it in .env or pass apiKey)");
+    }
     this.apiKey = key;
-    this.baseUrl = (opts.baseUrl || DEFAULT_BASE_URL).replace(/\/$/, "");
+    this.baseUrl = (opts.baseUrl || process.env.YANG_BASE_URL || DEFAULT_BASE_URL).replace(
+      /\/$/,
+      "",
+    );
     this.timeoutMs = opts.timeoutMs ?? 30_000;
     this.fetchImpl = opts.fetch ?? fetch;
   }
