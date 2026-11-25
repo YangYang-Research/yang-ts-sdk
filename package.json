@@ -1,5 +1,5 @@
 {
-  "name": "@yangyang/open-guardrails",
+  "name": "@yangyangxresearch/open-guardrails",
   "version": "0.1.0",
   "description": "Yang Open Guardrails TypeScript SDK — apply INPUT/OUTPUT checks via YAIG",
   "type": "module",

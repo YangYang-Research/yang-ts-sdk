@@ -7,7 +7,7 @@ This SDK does **not** call chat/completions or wrap OpenAI/Anthropic.
 ## Install
 
 ```bash
-npm install @yangyang/open-guardrails
+npm install @yangyangxresearch/open-guardrails
 ```
 
 ## Auth
@@ -19,7 +19,7 @@ npm install @yangyang/open-guardrails
 ## Quickstart
 
 ```ts
-import { YogClient, YogTripwireTriggered } from "@yangyang/open-guardrails";
+import { YogClient, YogTripwireTriggered } from "@yangyangxresearch/open-guardrails";
 
 const client = new YogClient({ apiKey: "sk-yyng…" });
 
@@ -84,7 +84,7 @@ npm run build
 
 Auto-publish via GitHub Actions when a **`v*` tag** is pushed or a **GitHub Release** is published — and only if that commit is already on `main`.
 
-Secret (org): `NPM_UPLOAD_PACKAGE` — grant this repo access under Org → Settings → Secrets. Package: `@yangyang/open-guardrails`.
+Secret (org): `NPM_UPLOAD_PACKAGE` — grant this repo access under Org → Settings → Secrets. Package: `@yangyangxresearch/open-guardrails` (npm org `yangyangxresearch`).
 
 1. Bump `version` on `develop` (`package.json`)
 2. Merge `develop` → `main`
