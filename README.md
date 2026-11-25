@@ -2,8 +2,6 @@
 
 Thin client for Yang Open Guardrails on `https://ai.yyng.icu`. Use it from an **existing agent app** to check text before the agent runs (`source: "INPUT"`) and before you show a reply (`source: "OUTPUT"`).
 
-This SDK does **not** call chat/completions or wrap OpenAI/Anthropic.
-
 ## Install
 
 ```bash
