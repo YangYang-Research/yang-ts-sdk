@@ -1,6 +1,10 @@
 name: Publish npm
 
+# Publish only after develop → main merge, then tag / GitHub Release (v*).
 on:
+  push:
+    tags:
+      - "v*"
   release:
     types: [published]
   workflow_dispatch:
@@ -13,6 +17,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require tag/release commit is on main
+        run: |
+          set -e
+          git fetch origin main
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "Refusing publish: HEAD is not on origin/main. Merge develop → main, then tag/release."
+            exit 1
+          fi
+          echo "OK: $(git rev-parse --short HEAD) is reachable from origin/main"
 
       - uses: actions/setup-node@v4
         with:

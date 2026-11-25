@@ -75,15 +75,20 @@ npm test
 npm run build
 ```
 
+## Branching
+
+- `develop` — day-to-day work / PRs
+- `main` — release line (merge from `develop` when shipping)
+
 ## Publish (maintainers)
 
-Auto-publish via GitHub Actions (`.github/workflows/publish.yml`) when a **GitHub Release** is published, or via **Actions → Publish npm → Run workflow**.
+Auto-publish via GitHub Actions when a **`v*` tag** is pushed or a **GitHub Release** is published — and only if that commit is already on `main`.
 
-Secret (org): `NPM_UPLOAD_PACKAGE` (npm access token) — grant this repo access under Org → Settings → Secrets. Package: `@yangyang/open-guardrails`.
+Secret (org): `NPM_UPLOAD_PACKAGE` — grant this repo access under Org → Settings → Secrets. Package: `@yangyang/open-guardrails`.
 
-1. Bump `version` in `package.json`
-2. Commit + push `main`
-3. Create a GitHub Release (tag e.g. `v0.1.0`) → workflow publishes to npm
+1. Bump `version` on `develop` (`package.json`)
+2. Merge `develop` → `main`
+3. On `main`: tag `v0.1.0` and/or create GitHub Release → workflow publishes to npm
 
 ## License
 
