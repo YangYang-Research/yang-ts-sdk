@@ -75,13 +75,15 @@ npm test
 npm run build
 ```
 
-## Publish checklist (maintainers)
+## Publish (maintainers)
 
-Do **not** publish until asked.
+Auto-publish via GitHub Actions (`.github/workflows/publish.yml`) when a **GitHub Release** is published, or via **Actions → Publish npm → Run workflow**.
+
+Secret: `NPM_UPLOAD_PACKAGE` (npm access token). Package: `@yangyang/open-guardrails`.
 
 1. Bump `version` in `package.json`
-2. `npm run build && npm pack --dry-run`
-3. `npm publish --access public` (package: `@yangyang/open-guardrails`)
+2. Commit + push `main`
+3. Create a GitHub Release (tag e.g. `v0.1.0`) → workflow publishes to npm
 
 ## License
 
