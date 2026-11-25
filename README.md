@@ -1,6 +1,6 @@
 # Yang TypeScript SDK
 
-Build YangYang into your agents and apps. One TypeScript package, typed clients per tool, shared API key — start with Open Guardrails and pick up more tools as they ship.
+Official TypeScript/JavaScript SDK for YangYang. Typed clients for Studio products — one package, shared credentials, import the tool you need.
 
 ## Install
 

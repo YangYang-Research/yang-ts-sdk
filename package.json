@@ -1,7 +1,7 @@
 {
   "name": "@yangyangxresearch/yang-ts-sdk",
   "version": "0.1.0",
-  "description": "YangYang TypeScript SDK — typed clients for Studio tools (Open Guardrails and more)",
+  "description": "Official YangYang TypeScript SDK — typed clients for Studio products",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
